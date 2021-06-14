@@ -19,82 +19,101 @@ while (( flag!=1 ))
 	do
 		cat basic_system_lookup;
 		read -p "Enter option# " option
+		option=$(echo $option | tr '[:upper:]' '[:lower:]')
 		clear	
 		case $option in
-			1|"uptime"|"Uptime")
+			1|"uptime")
 				center 'UPTIME'
 				seprator ;
 				center `eval uptime`
 				seprator ;;
 			
-			2|"uname"|"version")
+			2|"uname")
 				center "Sys Info"
 				seprator ;
 				center `eval uname -a`
 				seprator ;;
 			
-			3|"size"|"Size")
+			3|"size")
 			  seprator;
 				center "System Size"
 				seprator ;
 				df -h
 				seprator ;;
 			
-			4|"free"|"free"|"FREE")
+			4|"free")
 				seprator;
 				center "Memory Usage"
 				seprator
 				free -h
 				seprator;;
-			5|"process"|"Process"|"PROCESS")
+			5|"process")
 				seprator
 				center "Processes"
 				seprator
 				ps -aux
 				seprator;echo "";seprator;;
 				
-			6|"top"|"Top"|"TOP")
+			6|"top")
 				top
 				seprator;echo "";seprator;;
 			
-			7|"logged"|"Logged"|"LOGGED")	
+			7|"logged")	
 				center "Logged User"
 				seprator
 				center `eval who`
 				seprator;;
 				
-			8|"Memory"|"memory"|"MEMORY"|"meminfo")
+			8|"Memory")
 				seprator;
 				center "Memory Information"
 				seprator;
 				cat /proc/meminfo
 				seprator;echo " ";seprator;;
 		  
-			9|"cpu"|"Cpuinfo"|"cpuinfo")
+			9|"cpu")
 				seprator;
 				center "Cpu Information";
 				seprator;
 				eval lscpu
 				seprator;echo " ";seprator;;
 				
-			10|"overview"|"sysinfo"|"sysoverview")
+			10|"overview")
 				seprator;
 				center "System Overview"
 				seprator;
 				eval inxi -Fxz
 				seprator;echo " ";seprator;;
 				
-			11|"back"|"Back")
+			11|"back")
 				case_option;;
 			
 			12|"exit"|"quit")
 				exit;;
 
 			*)
-				echo "Invalid option!please select the valid number"
+				center "Invalid option!please select the valid number"
 
 		esac
 	done
+}
+
+
+function compression {
+			
+	while (( 1!=0 )) 
+	do
+		cat compression
+		read -p "Enter option# " option
+		option=$(echo $option | tr '[:upper:]' '[:lower:]')
+		case $option in
+			1|"tar")
+				echo "cool";;
+
+			*)
+				echo "done"
+		esac
+			done
 }
 
 
@@ -113,7 +132,10 @@ do
 			system_lookup
 			$((flag++));;
 		
-		2|"Network Lookup"|"network lookup" )
+		2|"Compression"|"compression"|"COMPRESSION" )
+			clear;
+			compression;
+			$((flag++))
 			;;		
 		
 		3|"hardware lookup"|"Hardware lookup")
