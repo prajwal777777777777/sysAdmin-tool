@@ -1,0 +1,20 @@
+
+1) Create Tar Archive file.
+2) Compress With Gzip(Fastest).
+3) Compress With Bz2(Better Comp. ratio).
+4) Compress With xz(Better Comp. Ratio).
+5) Compress With 7z.
+6) View Archive File(tar).
+7) Extract Archive File.
+6) Extract 7z File.
+7) View 7z Archive File.
+8) Test Integrity Of 7z.
+9) Set Psw To Archive File(7z). 
+10) Extract Archive File.
+11) View Archive file(tar).
+12) View Rar File.
+13) Create Rar File.
+14) Extract Rar file.
+15) Set Psw to Rar file.
+16) Back
+17) Exit
