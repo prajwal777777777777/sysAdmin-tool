@@ -11,11 +11,46 @@ seprator() {
 	printf %"$COLUMNS"s | tr " " "="
 }
 
+function filecheck() {
+global_line=0
+global_file_found=0
+
+			while (( 0!=1 ))
+			do
+				line=$[$line + 1]
+				if (( $line %4==0 ))
+				then
+					clear;
+				fi
+
+				read -p "Enter the absoulute path of file/Dir[q to quit]: " file_checks
+				file_checks=$( echo $file_checks | tr '[:upper:]' '[:lower:]')
+				#echo "checkpoint 1:$file_checks"
+			
+				if [ -e $file_checks ]
+					then
+						file_found=$[ $file_found + 1 ]
+						break;
+							
+				elif [[ $file_checks == "q" ]] || [[ $file_checks == "quit" ]]
+					then
+						break;
+						
+				else
+					seprator;
+						center "The give file doesnot seems to exist!!!"
+					seprator;
+						continue
+				fi
+			done
+
+}
+
 
 
 function system_lookup 
 {
-flag=0
+local flag=0
 while (( $flag!=1 ))
 	do
 		cat basic_system_lookup;
@@ -111,46 +146,26 @@ function compression {
 
 		case $option in
 			1|"archive")
-				line=0
-				file_found=0
-
-			while (( 0!=1 ))
-			do
-				line=$[$line + 1]
-				if (( $line %4==0 ))
-				then
-					clear;
-				fi
-
-				read -p "Enter the absoulute path of file/Dir[q to quit]: " file_checks
-				file_checks=$( echo $file_checks | tr '[:upper:]' '[:lower:]')
-				#echo "checkpoint 1:$file_checks"
-			
-				if [ -e $file_checks ]
+				filecheck;
+				if [[ $global_file_found -eq 1 ]]                                  #calling the variable from function filecheck
 					then
-						file_found=$[ $file_found + 1 ]
-						break;
-							
-				elif [[ $file_checks == "q" ]] || [[ $file_checks == "quit" ]]
-					then
-						break;
-						
-				else
-					seprator;
-						center "The give file doesnot seems to exist!!!"
-					seprator;
-						continue
-				fi
-			done
+						basename=`basename $global_file_checks.tar`
+				fi;;
 			
-			if [[ $file_found -eq 1 ]]
-			then
-				basename=`basename $file_checks.tar`
-				echo $basename
-			fi;;
+			
+		  16|"back")
+		 		case_option;;
 
-					*)
-				echo "NOt a valid option"
+			17|"exit"|"quit")
+			center "Bye"
+			seprator;
+			exit;;
+		 
+		 *)
+			seprator;
+			echo "Not a valid option"
+			seprator;
+		
 		esac
 	done	
 }
@@ -158,7 +173,7 @@ function compression {
 
 function case_option 
 {
-flag=0
+local flag=0
 clear
 
 while (( $flag!=1 )) 
