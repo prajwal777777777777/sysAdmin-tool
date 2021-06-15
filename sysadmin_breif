@@ -1,0 +1,53 @@
+[simple system admin coomands ]
+1.BASIC LINUX COMMANDS
+[------------------------------basic systemlookup-------------------------------]
+			a.uptime or uptime -p to show in minutes.
+			b.uname -a =print system information,kernel version,kernel release,hostname.
+			c.to view the size of file system df-h
+			d.du -h absuolute/filename = will show disk space use or to see total usasge us du -hs filename.
+			e.free -h to see total use and free system memory.
+			f.ps aux to see current process running.
+			g.top to see greedy process
+			h.to view domain information dig sitename ANY.
+			i.to view user logged on who or w(for more verbose).
+			j.to find the file in directory use find
+			k.to see mermory info cat /proc/meminfo.
+			l.to remove file completly by overwriting 7 time and add final zero to hide shredding shred -fzv -n 10 filename.
+			m.to view cpu details lscpu.
+			n.system overview command inxi -Fxz
+			o.to list each memorystick and its capacity sudo dmidecode -t memory 
+			p.w to view all the user shells and more info.
+
+
+
+[--------------------------------compression----------------------------------]
+			a.to create an archive tar -cvf filename.tar orginalfile
+			b.to create an archive with gzip tar -cvzf tarfilename.gz fileordir
+			c.to create an archive with bz2 compression tar -cvjf filename.tar.bz2 file or dir.
+			d.to create an archive with xz compression tar -cvJf filenamr.tar.xz file
+			e.to extract a tar archive use tar -xvf tar_filename.
+			f.to create a 7z archive file tar a filename.
+			g.to extract 7z archive file tar e filename.7z.
+			h.7z a -tzip[or any like gzip xz ]
+			i.to test intergrity of 7z 7z t filename 
+			j.to set password to an archive file 7za a -p pasword here filename.
+			k.untar singlefile tar -xvf cleanfiles.sh.tar filename.for zip use -xvxf or use -jxvf.
+			l.to add files or directory to tar file use tar -rvf filenamr.tar xyz.txt(it will be added).
+			m.to view tar archive file without listing tar -tvf filename.tar or 7z l filename or zip -sf  filename.zip 
+			n.to view the content of rarfile rar l filename.rar 
+			o.to open rar file unrar e filename.rar
+			p.to rar the file use rar a filename.rar realfile
+			q.to set password to rar file rar a -p filename.rar and to lock from extractin it rar k filename.rar.
+
+
+
+
+
+[--------------------------------networking----------------------------------]				
+iproute show to print or display the routing table.
+traceroute hostname to view all the route taken by packets.
+to view all listening ports netstat -ltu
+to view statistcs of all port netstat -s
+to ping the host ping hostname.
+
+	
