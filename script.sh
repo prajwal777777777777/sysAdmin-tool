@@ -12,10 +12,11 @@ seprator() {
 }
 
 
+
 function system_lookup 
 {
 flag=0
-while (( flag!=1 ))
+while (( $flag!=1 ))
 	do
 		cat basic_system_lookup;
 		read -p "Enter option# " option
@@ -106,14 +107,52 @@ function compression {
 		cat compression
 		read -p "Enter option# " option
 		option=$(echo $option | tr '[:upper:]' '[:lower:]')
-		case $option in
-			1|"tar")
-				echo "cool";;
+		clear
 
-			*)
-				echo "done"
-		esac
+		case $option in
+			1|"archive")
+				line=0
+				file_found=0
+
+			while (( 0!=1 ))
+			do
+				line=$[$line + 1]
+				if (( $line %4==0 ))
+				then
+					clear;
+				fi
+
+				read -p "Enter the absoulute path of file/Dir[q to quit]: " file_checks
+				file_checks=$( echo $file_checks | tr '[:upper:]' '[:lower:]')
+				#echo "checkpoint 1:$file_checks"
+			
+				if [ -e $file_checks ]
+					then
+						file_found=$[ $file_found + 1 ]
+						break;
+							
+				elif [[ $file_checks == "q" ]] || [[ $file_checks == "quit" ]]
+					then
+						break;
+						
+				else
+					seprator;
+						center "The give file doesnot seems to exist!!!"
+					seprator;
+						continue
+				fi
 			done
+			
+			if [[ $file_found -eq 1 ]]
+			then
+				basename=`basename $file_checks.tar`
+				echo $basename
+			fi;;
+
+					*)
+				echo "NOt a valid option"
+		esac
+	done	
 }
 
 
