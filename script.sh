@@ -11,8 +11,29 @@ seprator() {
 	printf %"$COLUMNS"s | tr " " "="
 }
 
+command_status() {
+status=$?
+sucess=0
+if [[ $status -eq 0 ]]
+then
+	sucess=1
+elif [[ $status -eq 2  || $status -eq 126 ]]
+then
+	center "Failure status,it seems like there is permission error."
+	seprator;
+elif [[ $status -eq 127 ]]
+then
+	center "Failure status,it seems like command doesnot exist or its not in ur PATH."
+	seprator;
+else
+	center "It seems like there is some kind of error."
+	seprator;
+fi
+
+}
+
 function filecheck() {
-global_line=0
+local line=0
 global_file_found=0
 
 			while (( 0!=1 ))
@@ -29,7 +50,7 @@ global_file_found=0
 			
 				if [ -e $file_checks ]
 					then
-						file_found=$[ $file_found + 1 ]
+						global_file_found=$[ $global_file_found + 1 ]
 						break;
 							
 				elif [[ $file_checks == "q" ]] || [[ $file_checks == "quit" ]]
@@ -43,6 +64,13 @@ global_file_found=0
 						continue
 				fi
 			done
+
+			if [[ $global_file_found -eq 1 ]]                                  #calling the variable from function filecheck
+					then
+						dirname=`dirname $file_checks`
+						basename=`basename $file_checks`
+
+			fi
 
 }
 
@@ -147,13 +175,64 @@ function compression {
 		case $option in
 			1|"archive")
 				filecheck;
-				if [[ $global_file_found -eq 1 ]]                                  #calling the variable from function filecheck
-					then
-						basename=`basename $global_file_checks.tar`
+				seprator;
+				center "Compressing the file"
+				tar -cvf $basename.tar -C $dirname $basename > /dev/null 2>&1
+				command_status
+				if [[ $sucess -eq 1 ]]
+				then
+					center "Archive file created on $dirname/$basename."
+					seprator
 				fi;;
-			
-			
-		  16|"back")
+					
+			2|"gzip")
+				filecheck;
+				seprator;
+				center "Compressing the file"
+				tar -cvzf $basename.tar.gz $file_checks > /dev/null 2>&1
+				command_status
+				if [[ $sucess -eq 1 ]]
+				then
+					center "gzip file created on $dirname/$basename.gz."
+					seprator
+				fi;;
+		  
+			3|"zip"|"bz2")
+				filecheck;
+				seprator;
+				center "Compressing the file"
+				tar -cvjf $basename.tar.bz2 $file_checks > /dev/null 2>&1
+				command_status;
+				if [[ $sucess -eq 1 ]]
+				then
+					center "bz2 file created on $dirname/$basename.bz2."
+				seprator
+				fi;;
+
+			4|"xz")
+				filecheck;
+				seprator;
+				center "Compressing the file"
+				tar -cvJf $basename.xz $file_checks > /dev/null 2>&1
+				command_status;
+				if [[ $sucess -eq 1 ]]
+				then
+					center "xz file created on $dirname/$basename.xz"
+					seprator
+				fi;;
+
+			7|"extract")
+				filecheck;
+				seprator;
+				center "Extracting the file"
+				tar -xvf $file_checks > /dev/null 2>&1
+				command_status;
+				if [[ $sucess -eq 1 ]]
+				then
+					center "Files has been sucessfully extracted on $dirname."
+					seprator
+				fi;;
+			16|"back")
 		 		case_option;;
 
 			17|"exit"|"quit")
