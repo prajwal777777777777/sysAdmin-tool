@@ -140,7 +140,7 @@ while (( $flag!=1 ))
 				seprator;
 				center "Cpu Information";
 				seprator;
-				eval lscpu
+				cat /proc/cpuinfo
 				seprator;echo " ";seprator;;
 				
 			10|"overview")
@@ -309,7 +309,7 @@ function compression {
 			echo ""
 			seprator;;
 
-		11|"password")
+		11|"password7z")
 			filecheck;
 			seprator;
 			echo ""
@@ -328,7 +328,7 @@ function compression {
 			seprator;
 			echo ""
 			if [[ $quit -eq 1 ]];then break;fi
-			rar l $filechecks
+			rar l $file_checks
 			command_status;
 			if [[ $sucess -eq 1 ]]
 			then 
@@ -342,17 +342,33 @@ function compression {
 			echo ""
 			if [[ $quit -eq 1 ]];then break;fi
 			center "compressing the file"
-			rar a $basename.rar $filechecks > /dev/null 2>&1
-			if [[ $status -eq 1 ]]
-			then 
-				echo "File has been compressed sucessfully"
+			rar a $basename.rar $file_checks > /dev/null 2>&1
+			command_status;
+			if [[ $sucess -eq 1 ]]
+			then
+				center "rar file created sucessfully in $dirname."
+				seprator;
 			fi;;
 
+		14|"extractrar")
+			filecheck;
+			seprator;
+			echo ""
+			if [[ $quit -eq 1 ]];then break;fi
+			mkdir $dirname/$basename.extracted
+			local path="$dirname/$basename.extracted"
+			unrar e $file_checks $path > /dev/null 2>&1
+			command_status;
+			if [[ $sucess -eq 1 ]]
+			then
+				center "file has been extracted sucessfully."
+				seprator;
+			fi;;
 		  
-		16|"back")
+		15|"back")
 		 		case_option;;
 
-			18|"exit"|"quit")
+			16|"exit"|"quit")
 			center "Bye"
 			seprator;
 			exit;;
@@ -366,6 +382,64 @@ function compression {
 	done	
 compression;
 }
+
+network () {
+	clear;
+	while (( 0!=1 ))
+	do
+		cat network
+		read -p "Enter option# " option
+		option=$( echo $option | tr '[:upper:]' '[:lower:]' )
+		clear;
+		case $option in 
+			1|"traceroute")
+				read -p "Enter the hostname: " hostname
+				center "traceroute"
+				seprator
+				traceroute $hostname  &
+				wait $!
+				echo " ";seprator;;
+			
+			2|"listeningport")
+			 center "listening port"
+			 seprator;
+			 netstat -ltu
+			 echo " ";seprator;;
+
+			3|"statistics")
+				center "Statistics of listening port"
+				seprator;
+				netstat -s
+				echo " ";seprator;;
+			
+			4|"ping all")
+				center "pinging all the devices"
+				seprator;
+				read -p "Enter the first 3 octet of ip(192.168.100): " octet
+				center "Program running..."
+				real_date=`date | awk '{print $2;print $3;print $5}' | tr '\n' '.' | sed 's/\.$/ /'`
+				for i in {1..254} 
+				do
+					sleep 0.05
+					ping -c 1 $octet.$i | grep "^64" | awk '{print $4}' | tr ':' ' ' &
+
+				done | tee active.$real_date
+				echo " "
+				seprator;echo " ";;
+				
+			5|"back")
+				case_option;;
+			
+			6|"exit")
+				center "Bye"
+				seprator
+				exit;;
+			*)
+				center "Not a valid option"
+				seprator;
+		esac
+	done
+	}
 
 
 function case_option 
@@ -387,7 +461,9 @@ do
 			compression;
 			;;		
 		
-		3|"hardware lookup"|"Hardware lookup")
+		3|"network lookup"|"network")
+			clear
+			network
 			;;
 		4|"exit"|"quit")
 			break;;
